@@ -1873,3 +1873,14 @@ wrapper/dists/gradle-2.0-bin/5h57m9vra0mjv9qs45oqtsb5c0/gradle-2.0/media/gradle-
 wrapper/dists/gradle-2.0-bin/5h57m9vra0mjv9qs45oqtsb5c0/gradle-2.0/media/gradle-icon-512x512.png
 wrapper/dists/gradle-2.0-bin/5h57m9vra0mjv9qs45oqtsb5c0/gradle-2.0/media/gradle-icon-64x64.png
 wrapper/dists/gradle-2.0-bin/5h57m9vra0mjv9qs45oqtsb5c0/gradle-2.0/media/gradle.icns
+.settings/org.eclipse.m2e.core.prefs
+target/classes/com/sgs/mcma/client/Client$1.class
+target/classes/com/sgs/mcma/client/Client.class
+target/classes/com/sgs/mcma/client/ClientException.class
+target/classes/com/sgs/mcma/client/PlayerJoined_Params.class
+target/classes/com/sgs/mcma/client/PlayerLeft_Params.class
+target/classes/com/sgs/mcma/mod/MCMACommunicationMod.class
+target/classes/com/sgs/mcma/mod/PlayerConnectionHandler$1.class
+target/classes/com/sgs/mcma/mod/PlayerConnectionHandler$2.class
+target/classes/com/sgs/mcma/mod/PlayerConnectionHandler.class
+target/classes/mcmod.info
