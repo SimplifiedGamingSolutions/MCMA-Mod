@@ -1,4 +1,4 @@
-package com.example.examplemod;
+package com.sgs.mcma.mod;
 
 import java.io.IOException;
 
@@ -15,9 +15,8 @@ public class PlayerConnectionHandler{
 		Thread thread = new Thread(new Runnable(){
 
 			public void run() {
-				boolean result;
 				try {
-					result = new Client("localhost", 39640).PlayerJoined(name);
+					new Client("localhost", 39640).PlayerJoined(name);
 					//System.out.println(result);
 				} catch (ClientException e) {
 					// TODO Auto-generated catch block
@@ -37,9 +36,8 @@ public class PlayerConnectionHandler{
 		Thread thread = new Thread(new Runnable(){
 
 			public void run() {
-				boolean result;
 				try {
-					result = new Client("localhost", 39640).PlayerLeft(name);
+					new Client("localhost", 39640).PlayerLeft(name);
 					//System.out.println(result);
 				} catch (ClientException e) {
 					// TODO Auto-generated catch block
