@@ -67,9 +67,8 @@ public class Client {
 		Thread thread = new Thread(new Runnable(){
 
 			public void run() {
-				boolean result;
 				try {
-					result = new Client("localhost", 39640).PlayerLeft("testplayer");
+					new Client("localhost", 39640).PlayerLeft("testplayer");
 					//System.out.println(result);
 				} catch (ClientException e) {
 					// TODO Auto-generated catch block
