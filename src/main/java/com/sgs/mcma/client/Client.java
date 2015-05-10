@@ -68,12 +68,17 @@ public class Client {
 
 			public void run() {
 				try {
+					new Client("localhost", 39640).PlayerJoined("testplayer");
+					Thread.sleep(10000);
 					new Client("localhost", 39640).PlayerLeft("testplayer");
 					//System.out.println(result);
 				} catch (ClientException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
