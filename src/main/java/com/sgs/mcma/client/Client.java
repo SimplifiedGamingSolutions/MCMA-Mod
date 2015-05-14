@@ -10,32 +10,39 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-
-public class Client {
+public class Client
+{
 
 	String serveraddress;
 	int port;
 
-	public Client(String serveraddress, int port) {
+	public Client(String serveraddress, int port)
+	{
 		this.serveraddress = serveraddress;
 		this.port = port;
 	}
 
-	public boolean PlayerJoined(String player)
-			throws ClientException, IOException {
-		return (Boolean) doPost("/PlayerJoined", new PlayerJoined_Params(player));
+	public boolean PlayerJoined(String player) throws ClientException,
+			IOException
+	{
+		return (Boolean) doPost("/PlayerJoined",
+				new PlayerJoined_Params(player));
 	}
 
-	public boolean PlayerLeft(String player)
-			throws ClientException, IOException {
+	public boolean PlayerLeft(String player) throws ClientException,
+			IOException
+	{
 		return (Boolean) doPost("/PlayerLeft", new PlayerLeft_Params(player));
 	}
 
 	private Object doPost(String urlPath, Object postData)
-			throws ClientException {
-		try {
+			throws ClientException
+	{
+		try
+		{
 			URL url = new URL("http", serveraddress, port, urlPath);
-			HttpURLConnection connection = (HttpURLConnection) url .openConnection();
+			HttpURLConnection connection = (HttpURLConnection) url
+					.openConnection();
 			connection.setRequestMethod("POST");
 			connection.setDoOutput(true);
 			connection.connect();
@@ -44,7 +51,8 @@ public class Client {
 			ObjectOutput out = new ObjectOutputStream(requestBody);
 			out.writeObject(postData);
 			requestBody.close();
-			if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+			if (connection.getResponseCode() == HttpURLConnection.HTTP_OK)
+			{
 				InputStream responseBody = connection.getInputStream();
 				// Read response body from InputStream ...
 				ObjectInput in = null;
@@ -54,31 +62,41 @@ public class Client {
 				responseBody.close();
 				connection.disconnect();
 				return returnobj;
-			} else {
+			} else
+			{
 				connection.disconnect();
 				throw new ClientException();
 			}
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			throw new ClientException(e);
 		}
 	}
-	
-	public static void main(String[] args) {
-		Thread thread = new Thread(new Runnable(){
 
-			public void run() {
-				try {
+	public static void main(String[] args)
+	{
+		Thread thread = new Thread(new Runnable()
+		{
+
+			@Override
+			public void run()
+			{
+				try
+				{
 					new Client("localhost", 39640).PlayerJoined("testplayer");
 					Thread.sleep(10000);
 					new Client("localhost", 39640).PlayerLeft("testplayer");
-					//System.out.println(result);
-				} catch (ClientException e) {
+					// System.out.println(result);
+				} catch (ClientException e)
+				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				} catch (IOException e) {
+				} catch (IOException e)
+				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				} catch (InterruptedException e) {
+				} catch (InterruptedException e)
+				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}

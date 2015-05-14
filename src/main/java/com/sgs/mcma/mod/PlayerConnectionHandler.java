@@ -8,20 +8,28 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import com.sgs.mcma.client.Client;
 import com.sgs.mcma.client.ClientException;
 
-public class PlayerConnectionHandler{
+public class PlayerConnectionHandler
+{
 	@SubscribeEvent
-	public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
+	public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event)
+	{
 		final String name = event.player.getName();
-		Thread thread = new Thread(new Runnable(){
+		Thread thread = new Thread(new Runnable()
+		{
 
-			public void run() {
-				try {
+			@Override
+			public void run()
+			{
+				try
+				{
 					new Client("localhost", 39640).PlayerJoined(name);
-					//System.out.println(result);
-				} catch (ClientException e) {
+					// System.out.println(result);
+				} catch (ClientException e)
+				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				} catch (IOException e) {
+				} catch (IOException e)
+				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -29,20 +37,27 @@ public class PlayerConnectionHandler{
 		});
 		thread.start();
 	}
-	
-	@SubscribeEvent
-	public void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event) {
-		final String name = event.player.getName();
-		Thread thread = new Thread(new Runnable(){
 
-			public void run() {
-				try {
+	@SubscribeEvent
+	public void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event)
+	{
+		final String name = event.player.getName();
+		Thread thread = new Thread(new Runnable()
+		{
+
+			@Override
+			public void run()
+			{
+				try
+				{
 					new Client("localhost", 39640).PlayerLeft(name);
-					//System.out.println(result);
-				} catch (ClientException e) {
+					// System.out.println(result);
+				} catch (ClientException e)
+				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				} catch (IOException e) {
+				} catch (IOException e)
+				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
