@@ -17,7 +17,6 @@ public class PlayerConnectionHandler
 		Thread thread = new Thread(new Runnable()
 		{
 
-			@Override
 			public void run()
 			{
 				try
@@ -45,7 +44,6 @@ public class PlayerConnectionHandler
 		Thread thread = new Thread(new Runnable()
 		{
 
-			@Override
 			public void run()
 			{
 				try
