@@ -5,18 +5,21 @@ import org.apache.logging.log4j.Logger;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.relauncher.Side;
 
-@Mod(modid = "MCMA-Mod", version = "1.0")
+@Mod(modid = "MCMA-Mod", name = "MCMA-Mod", version = "1.0")
 public class BaseMod
 {
     public static Logger logger;
+    private Configuration configs;
+    private String HOST = "localhost";
+    private int PORT = 39640;
     
 	@Instance(value = "com.sgs.mcma.mod")
 	public static BaseMod instance;
@@ -24,28 +27,24 @@ public class BaseMod
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
-        Configuration configs = new Configuration(event.getSuggestedConfigurationFile());
-        try {
-                configs.load();
-        } catch (RuntimeException e) {
-                logger.warn(e);
-        }
+        configs = new Configuration(event.getSuggestedConfigurationFile());
     }
     
     @EventHandler
     public void Load(FMLInitializationEvent event){
-    	logger.info("loaded");
+        configs.load();
+    	logInfo("loaded");
     }
     
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
-		MinecraftForge.EVENT_BUS.register(new PlayerConnectionHandler());
-		if(event.getSide().equals(Side.CLIENT))
-		{
-			MinecraftForge.EVENT_BUS.register(new ClientChatHandler(this));
-		}
-    	logger.info("initialized");
+    	configs.get("MCMA Client Settings", "host", "localhost");
+    	configs.get("MCMA Client Settings", "port", "39640");
+    	configs.save();
+		FMLCommonHandler.instance().bus().register(new PlayerConnectionHandler(this, HOST, PORT));
+		MinecraftForge.EVENT_BUS.register(new ServerChatHandler(this));
+		logInfo("initialized");
 	}
 	
     @EventHandler
@@ -54,15 +53,15 @@ public class BaseMod
     }
     
    	public void logInfo(String message) {
-   		this.logger.info(message);
+   		logger.info(message);
    	}
     
    	public void logWarning(String message) {
-   		this.logger.warn(message);
+   		logger.warn(message);
    	}
     
    	public void logSevere(String message) {
-   		this.logger.error(message);
+   		logger.error(message);
    	}
 
 }

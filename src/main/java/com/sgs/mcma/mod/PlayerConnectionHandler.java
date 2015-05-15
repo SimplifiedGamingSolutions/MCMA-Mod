@@ -1,66 +1,53 @@
 package com.sgs.mcma.mod;
 
-import java.io.IOException;
-
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 
 import com.sgs.mcma.client.Client;
-import com.sgs.mcma.client.ClientException;
 
 public class PlayerConnectionHandler
 {
+	BaseMod base;
+	Client client;
+	public PlayerConnectionHandler(BaseMod base, String host, int port)
+	{
+		this.base = base;
+		this.client = new Client(host, port);
+	}
+	
 	@SubscribeEvent
 	public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event)
 	{
-		final String name = event.player.getName();
-		Thread thread = new Thread(new Runnable()
-		{
-
-			public void run()
-			{
-				try
-				{
-					new Client("localhost", 39640).PlayerJoined(name);
-					// System.out.println(result);
-				} catch (ClientException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
-		thread.start();
+		base.logInfo("PlayerConnectionHandler received PlayerLoggedInEvent");
+		playerJoined(event.player.getName());
 	}
 
 	@SubscribeEvent
 	public void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event)
 	{
-		final String name = event.player.getName();
-		Thread thread = new Thread(new Runnable()
-		{
+		base.logInfo("PlayerConnectionHandler received PlayerLoggedOutEvent");
+		playerLeft(event.player.getName());
+	}
 
-			public void run()
-			{
-				try
-				{
-					new Client("localhost", 39640).PlayerLeft(name);
-					// System.out.println(result);
-				} catch (ClientException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
-		thread.start();
+	private void playerJoined(String name)
+	{
+		try
+		{
+			client.PlayerJoined(name);
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	private void playerLeft(String name)
+	{
+		try
+		{
+			client.PlayerLeft(name);
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 }
