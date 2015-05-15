@@ -16,6 +16,7 @@ public class PlayerConnectionHandler
 		final String name = event.player.getName();
 		Thread thread = new Thread(new Runnable()
 		{
+
 			@Override
 			public void run()
 			{
@@ -25,9 +26,11 @@ public class PlayerConnectionHandler
 					// System.out.println(result);
 				} catch (ClientException e)
 				{
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e)
 				{
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -50,10 +53,12 @@ public class PlayerConnectionHandler
 					new Client("localhost", 39640).PlayerLeft(name);
 					// System.out.println(result);
 				} catch (ClientException e)
-				{S
+				{
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e)
 				{
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
