@@ -2,6 +2,7 @@ package com.sgs.mcma.client;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
@@ -9,6 +10,9 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import org.apache.commons.codec.binary.StringUtils;
+import org.apache.commons.io.IOUtils;
 
 public class Client
 {
@@ -22,20 +26,20 @@ public class Client
 		this.port = port;
 	}
 
-	public boolean PlayerJoined(String player) throws ClientException,
+	public String PlayerJoined(String player) throws ClientException,
 			IOException
 	{
-		return (Boolean) doPost("/PlayerJoined",
-				new PlayerJoined_Params(player));
+		return StringUtils.newStringUtf8(doPost("/PlayerJoined",
+				StringUtils.getBytesUtf8(player)));
 	}
 
-	public boolean PlayerLeft(String player) throws ClientException,
+	public String PlayerLeft(String player) throws ClientException,
 			IOException
 	{
-		return (Boolean) doPost("/PlayerLeft", new PlayerLeft_Params(player));
+		return StringUtils.newStringUtf8(doPost("/PlayerLeft", StringUtils.getBytesUtf8(player)));
 	}
 
-	private Object doPost(String urlPath, Object postData)
+	private byte[] doPost(String urlPath, Object postData)
 			throws ClientException
 	{
 		try
@@ -55,13 +59,10 @@ public class Client
 			{
 				InputStream responseBody = connection.getInputStream();
 				// Read response body from InputStream ...
-				ObjectInput in = null;
-				in = new ObjectInputStream(responseBody);
-				Object returnobj = in.readObject();
-				in.close();
+				byte[] bytes = IOUtils.toByteArray(responseBody);
 				responseBody.close();
 				connection.disconnect();
-				return returnobj;
+				return bytes;
 			} else
 			{
 				connection.disconnect();
