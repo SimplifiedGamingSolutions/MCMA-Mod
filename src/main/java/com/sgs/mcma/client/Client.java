@@ -2,14 +2,11 @@ package com.sgs.mcma.client;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 
 import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.io.IOUtils;
@@ -30,16 +27,17 @@ public class Client
 			IOException
 	{
 		return StringUtils.newStringUtf8(doPost("/PlayerJoined",
-				StringUtils.getBytesUtf8(player)));
+				URLEncoder.encode(player, "UTF-8")));
 	}
 
 	public String PlayerLeft(String player) throws ClientException,
 			IOException
 	{
-		return StringUtils.newStringUtf8(doPost("/PlayerLeft", StringUtils.getBytesUtf8(player)));
+		return StringUtils.newStringUtf8(doPost("/PlayerLeft",
+				URLEncoder.encode(player, "UTF-8")));
 	}
 
-	private byte[] doPost(String urlPath, Object postData)
+	private byte[] doPost(String urlPath, String postData)
 			throws ClientException
 	{
 		try
@@ -50,11 +48,9 @@ public class Client
 			connection.setRequestMethod("POST");
 			connection.setDoOutput(true);
 			connection.connect();
-			OutputStream requestBody = connection.getOutputStream();
-			// Write request body to OutputStream ...
-			ObjectOutput out = new ObjectOutputStream(requestBody);
-			out.writeObject(postData);
-			requestBody.close();
+			PrintWriter writer = new PrintWriter(new OutputStreamWriter(connection.getOutputStream()));
+			writer.println(postData);
+			writer.flush();
 			if (connection.getResponseCode() == HttpURLConnection.HTTP_OK)
 			{
 				InputStream responseBody = connection.getInputStream();
